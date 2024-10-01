@@ -1,3 +1,4 @@
+using Mates.API.Constants;
 using Mates.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,8 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-    
+    options.UseNpgsql(Environment.GetEnvironmentVariable(EnvironmentVariables.DBConnectionString));
 });
 
 var app = builder.Build();

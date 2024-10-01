@@ -63,3 +63,4 @@ ehthumbs.db
 
 ## Ignore ReSharper folders
 _ReSharper*/
+/Mates.WebAPI/Properties/launchSettings.json
