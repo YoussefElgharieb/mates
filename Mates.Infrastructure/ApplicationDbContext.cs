@@ -6,7 +6,6 @@ namespace Mates.Infrastructure
 {
     public class ApplicationDbContext : DbContext
     {
-        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
