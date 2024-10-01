@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mates.WebAPI", "Mates.WebAPI\Mates.WebAPI.csproj", "{59B85F39-744A-49DD-BCEB-51C7A71DB8B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mates.API", "Mates.WebAPI\Mates.API.csproj", "{59B85F39-744A-49DD-BCEB-51C7A71DB8B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mates.Core", "Mates.Core\Mates.Core.csproj", "{3F626750-3DB9-4B01-8DF5-965A1BCA8E63}"
 EndProject
