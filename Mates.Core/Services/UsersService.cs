@@ -3,6 +3,7 @@ using Mates.Core.ServiceContracts;
 using Mates.Core.Services.ServiceInterfaces;
 using Mates.Core.Domain.Entities;
 using Mates.Core.DTO.UserDTOs;
+using Microsoft.AspNetCore.Http;
 
 namespace Mates.Core.Services
 {
@@ -20,7 +21,7 @@ namespace Mates.Core.Services
         public async Task<UserResponse?> CreateUser(UserCreateRequest userCreateRequest)
         {
             var userWithSameEmail = await _userRepository.GetUser(userCreateRequest.Email);
-            if(userWithSameEmail != null) throw new ArgumentException("A user with the same email already exists");
+            if(userWithSameEmail != null) throw new BadHttpRequestException("A user with the same email already exists");
             
             var hashedPassword = _passwordService.Hash(userCreateRequest.Password);
 
