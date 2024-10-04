@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Mates.API.Middleware
@@ -20,30 +21,22 @@ namespace Mates.API.Middleware
             {
                 await _next(httpContext);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                if(ex is ArgumentException)
-                {
-                    httpContext.Response.StatusCode = 400;
-                }
-                else 
-                { 
-                    httpContext.Response.StatusCode = 500;
-                }
 
-                var response = new { error = ex.Message };
+                var statusCode = exception switch
+                {
+                    ArgumentException => (int)HttpStatusCode.BadRequest,
+                    UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
+                    _ => (int)HttpStatusCode.InternalServerError
+                };
+
+                httpContext.Response.StatusCode = statusCode;
+
+                var response = new { error = exception.Message };
 
                 await httpContext.Response.WriteAsJsonAsync(response);
             }
-        }
-    }
-
-    // Extension method used to add the middleware to the HTTP request pipeline.
-    public static class ExceptionHandlingMiddlewareExtensions
-    {
-        public static IApplicationBuilder UseExceptionHandlingMiddleware(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ExceptionHandlingMiddleware>();
         }
     }
 }

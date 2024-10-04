@@ -9,6 +9,7 @@ namespace Mates.Core.DTO.UserDTOs
             RuleFor(u => u.Email)
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Email must be in proper format.");
+            
             RuleFor(u => u.Password)
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(8).WithMessage("Password must be at least 8 characters long.")
@@ -16,6 +17,7 @@ namespace Mates.Core.DTO.UserDTOs
                 .Matches(@"[a-z]").WithMessage("Password must contain at least one lowercase letter.")
                 .Matches(@"[0-9]").WithMessage("Password must contain at least one number.")
                 .Matches(@"[\W]").WithMessage("Password must contain at least one special character.");
+            
             RuleFor(u => u.Name)
                 .NotEmpty().WithMessage("Name is required")
                 .MinimumLength(1).WithMessage("Name must be at least 8 characters long.")

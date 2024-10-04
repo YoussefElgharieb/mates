@@ -1,4 +1,4 @@
-﻿using Mates.Core.Domain.RepositoryContracts;
+﻿using Mates.Core.Domain.RepositoryInterfaces;
 using Mates.Core.ServiceContracts;
 using Mates.Core.Services.ServiceInterfaces;
 using Mates.Core.Domain.Entities;
@@ -13,20 +13,17 @@ namespace Mates.Core.Services
 
         public UsersService(IUsersRepository userRepository, IPasswordService passwordService) 
         { 
-            _userRepository = userRepository;
-            _passwordService = passwordService;
+            _userRepository = userRepository?? throw new ArgumentNullException("'userRepository' cannot be null");
+            _passwordService = passwordService?? throw new ArgumentNullException("'passwordService' cannot be null");
         }
 
         public async Task<UserResponse?> CreateUser(UserCreateRequest userCreateRequest)
         {
-            //check if a user with the same email already exists
             var userWithSameEmail = await _userRepository.GetUser(userCreateRequest.Email);
             if(userWithSameEmail != null) throw new ArgumentException("A user with the same email already exists");
             
-            //hashpassowrd
             var hashedPassword = _passwordService.Hash(userCreateRequest.Password);
 
-            //create user
             var user = new User() 
             { 
                 Id = Guid.NewGuid(), 
