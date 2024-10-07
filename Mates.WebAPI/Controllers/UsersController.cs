@@ -12,11 +12,11 @@ namespace Mates.API.Controllers
         IUsersService _usersService;
         public UsersController(IUsersService usersService)
         {
-            _usersService = usersService?? throw new ArgumentNullException("'usersService' cannot be null");
+            _usersService = usersService?? throw new ArgumentNullException($"{nameof(usersService)}");
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserResponse?>> Post([FromBody]UserCreateRequest userCreateRequest)
+        public async Task<ActionResult<UserResponse>> Post([FromBody]UserCreateRequest userCreateRequest)
         {
             return await _usersService.CreateUserAsync(userCreateRequest);
         }

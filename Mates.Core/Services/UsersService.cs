@@ -14,8 +14,8 @@ namespace Mates.Core.Services
 
         public UsersService(IUsersRepository userRepository, IPasswordService passwordService) 
         { 
-            _userRepository = userRepository ?? throw new ArgumentNullException($"{nameof(userRepository)} cannot be null");
-            _passwordService = passwordService ?? throw new ArgumentNullException($"nameof{passwordService} cannot be null");
+            _userRepository = userRepository ?? throw new ArgumentNullException($"{nameof(userRepository)}");
+            _passwordService = passwordService ?? throw new ArgumentNullException($"{nameof(passwordService)}");
         }
 
         public async Task<UserResponse> CreateUserAsync(UserCreateRequest userCreateRequest)
