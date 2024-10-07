@@ -13,7 +13,7 @@ namespace Mates.Infrastructure.Repositories
 
         public UsersRepository (ApplicationDbContext context)
         {
-            _context = context?? throw new ArgumentNullException("'context' cannot be null");
+            _context = context?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<User> CreateUserAsync(User user)
