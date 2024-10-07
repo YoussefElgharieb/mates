@@ -12,7 +12,7 @@ namespace Mates.API.Controllers
         IUsersService _usersService;
         public UsersController(IUsersService usersService)
         {
-            _usersService = usersService?? throw new ArgumentNullException($"{nameof(usersService)}");
+            _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
         }
 
         [HttpPost]
