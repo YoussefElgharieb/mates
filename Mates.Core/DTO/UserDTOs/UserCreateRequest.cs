@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
 
-namespace Mates.Core.Domain.Entities
+namespace Mates.Core.DTO.UserDTOs
 {
-    public class User
+    public class UserCreateRequest
     {
-        [Key]
-        public Guid Id { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
         public required string Name { get; set; }
