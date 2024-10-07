@@ -24,5 +24,4 @@ namespace Mates.Core.DTO.UserDTOs
                 .MaximumLength(128).WithMessage("Name cannot be more than 128 character long.");
         }
     }
-
 }

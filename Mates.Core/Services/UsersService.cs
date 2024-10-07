@@ -14,13 +14,13 @@ namespace Mates.Core.Services
 
         public UsersService(IUsersRepository userRepository, IPasswordService passwordService) 
         { 
-            _userRepository = userRepository?? throw new ArgumentNullException("'userRepository' cannot be null");
-            _passwordService = passwordService?? throw new ArgumentNullException("'passwordService' cannot be null");
+            _userRepository = userRepository ?? throw new ArgumentNullException($"{nameof(userRepository)} cannot be null");
+            _passwordService = passwordService ?? throw new ArgumentNullException($"nameof{passwordService} cannot be null");
         }
 
-        public async Task<UserResponse> CreateUser(UserCreateRequest userCreateRequest)
+        public async Task<UserResponse> CreateUserAsync(UserCreateRequest userCreateRequest)
         {
-            var userWithSameEmail = await _userRepository.GetUser(userCreateRequest.Email);
+            var userWithSameEmail = await _userRepository.GetUserAsync(userCreateRequest.Email);
             if(userWithSameEmail != null) throw new BadHttpRequestException("A user with the same email already exists");
             
             var hashedPassword = _passwordService.Hash(userCreateRequest.Password);
@@ -33,7 +33,7 @@ namespace Mates.Core.Services
                 Name = userCreateRequest.Name,
             };
 
-            await _userRepository.CreateUser(user);
+            await _userRepository.CreateUserAsync(user);
 
             return new UserResponse()
             {
@@ -42,6 +42,5 @@ namespace Mates.Core.Services
                 Name = user.Name
             };
         }
-
     }
 }

@@ -24,7 +24,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<IUsersService, UsersService>();
-builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddSingleton<IPasswordService, PasswordService>();
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
