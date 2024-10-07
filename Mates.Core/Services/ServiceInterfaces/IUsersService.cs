@@ -4,6 +4,6 @@ namespace Mates.Core.ServiceContracts
 {
     public interface IUsersService
     {
-        public Task<UserResponse> CreateUserAsync(UserCreateRequest userCreateRequest);
+        public Task<UserResponse> CreateUserAsync(CreateUserRequest userCreateRequest);
     }
 }

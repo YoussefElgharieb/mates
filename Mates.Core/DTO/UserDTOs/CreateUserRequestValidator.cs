@@ -2,9 +2,9 @@
 
 namespace Mates.Core.DTO.UserDTOs
 {
-    public class UserCreateRequestValidator : AbstractValidator<UserCreateRequest>
+    public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
     {
-        public UserCreateRequestValidator()
+        public CreateUserRequestValidator()
         {
             RuleFor(u => u.Email)
                 .NotEmpty().WithMessage("Email is required.")
