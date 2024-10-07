@@ -24,8 +24,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddSingleton<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IRelationshipsService, RelationshipsService>();
-builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IRelationshipsRepository, RelationshipsRepository>();

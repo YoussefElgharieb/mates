@@ -20,5 +20,8 @@ namespace Mates.API.Controllers
         {
             return await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<RelationshipResponse>>> GetFriends()
     }
 }

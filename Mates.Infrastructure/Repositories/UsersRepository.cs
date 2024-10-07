@@ -13,9 +13,10 @@ namespace Mates.Infrastructure.Repositories
 
         public UsersRepository (ApplicationDbContext context)
         {
-            _context = context?? throw new ArgumentNullException("'context' cannot be null");
+            _context = context?? throw new ArgumentNullException(nameof(context));
         }
-        public async Task<User> CreateUser(User user)
+
+        public async Task<User> CreateUserAsync(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -25,12 +26,9 @@ namespace Mates.Infrastructure.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == Id);
         }
-
-        public async Task<User?> GetUser(string Email)
+        public async Task<User?> GetUserAsync(string Email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == Email);
         }
-
-        
     }
 }
