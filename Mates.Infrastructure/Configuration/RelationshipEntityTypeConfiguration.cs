@@ -21,7 +21,7 @@ namespace Mates.Infrastructure.Configuration
                 .HasOne<User>()
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
-            .IsRequired();
+                .IsRequired();
 
             builder
                 .HasOne<User>()

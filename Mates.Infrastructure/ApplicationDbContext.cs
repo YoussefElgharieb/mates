@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mates.Core.Domain.Entities;
 using Mates.Infrastructure.Configuration;
+using System.Reflection;
 
 
 namespace Mates.Infrastructure
@@ -15,8 +16,7 @@ namespace Mates.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            new RelationshipEntityTypeConfiguration().Configure(modelBuilder.Entity<Relationship>());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
     }
 }

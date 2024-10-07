@@ -22,13 +22,13 @@ namespace Mates.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return user;
         }
-        public async Task<User?> GetUserByIdAsync(Guid Id)
+        public async Task<User?> GetUserByIdAsync(Guid id)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == Id);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
-        public async Task<User?> GetUserEmailAsync(string Email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == Email);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

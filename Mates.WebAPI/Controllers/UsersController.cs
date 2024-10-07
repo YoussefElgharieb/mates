@@ -16,7 +16,7 @@ namespace Mates.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserResponse>> Post([FromBody]UserCreateRequest userCreateRequest)
+        public async Task<ActionResult<UserResponse>> Post([FromBody]CreateUserRequest userCreateRequest)
         {
             return await _usersService.CreateUserAsync(userCreateRequest);
         }

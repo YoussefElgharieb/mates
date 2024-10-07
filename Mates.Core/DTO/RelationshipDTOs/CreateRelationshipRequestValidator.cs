@@ -2,9 +2,9 @@
 
 namespace Mates.Core.DTO.RelationshipDTOs
 {
-    public class RelationshipCreateRequestValidator : AbstractValidator<RelationshipCreateRequest>
+    public class CreateRelationshipRequestValidator : AbstractValidator<CreateRelationshipRequest>
     {
-        public RelationshipCreateRequestValidator() {
+        public CreateRelationshipRequestValidator() {
             RuleFor(r => r.UserId)
                 .NotEmpty().WithMessage("'UserId' is required");
 

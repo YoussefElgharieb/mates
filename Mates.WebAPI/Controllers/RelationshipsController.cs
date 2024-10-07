@@ -15,7 +15,7 @@ namespace Mates.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] RelationshipCreateRequest relationshipCreateRequest)
+        public async Task<ActionResult> Post([FromBody] CreateRelationshipRequest relationshipCreateRequest)
         {
             await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
             return NoContent();

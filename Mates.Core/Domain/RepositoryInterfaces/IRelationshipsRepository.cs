@@ -5,6 +5,6 @@ namespace Mates.Core.Domain.RepositoryInterfaces
     public interface IRelationshipsRepository
     {
         public Task<Relationship> CreateRelationshipAsync(Relationship relationship);
-        public Task<Relationship?> GetRelationshipAsync(Guid UserId, Guid OtherUserId);
+        public Task<Relationship?> GetRelationshipAsync(Guid userId, Guid otherUserId);
     }
 }

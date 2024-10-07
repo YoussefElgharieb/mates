@@ -11,7 +11,7 @@ namespace Mates.Infrastructure.Repositories
 
         public RelationshipsRepository(ApplicationDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException("'context' cannot be null");
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task<Relationship> CreateRelationshipAsync(Relationship relationship)
         {
@@ -20,9 +20,9 @@ namespace Mates.Infrastructure.Repositories
             return relationship;
         }
 
-        public async Task<Relationship?> GetRelationshipAsync(Guid UserId, Guid OtherUserId)
+        public async Task<Relationship?> GetRelationshipAsync(Guid userId, Guid otherUserId)
         {
-            return await _context.Relationships.FirstOrDefaultAsync(r => r.UserId == UserId && r.OtherUserId == OtherUserId || r.UserId == OtherUserId && r.OtherUserId == UserId);
+            return await _context.Relationships.FirstOrDefaultAsync(r => r.UserId == userId && r.OtherUserId == otherUserId || r.UserId == otherUserId && r.OtherUserId == userId);
         }
     }
 }

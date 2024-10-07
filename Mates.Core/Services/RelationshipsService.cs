@@ -13,11 +13,11 @@ namespace Mates.Core.Services
 
         public RelationshipsService (IRelationshipsRepository relationshipsRepository, IUsersRepository usersRepository)
         {
-            this._relationshipsRepository = relationshipsRepository;
-            this._usersRepository = usersRepository;
+            _relationshipsRepository = relationshipsRepository ?? throw new ArgumentNullException(nameof(relationshipsRepository));
+            _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
         }
 
-        public async Task CreateRelationshipAsync(RelationshipCreateRequest relationshipCreateRequest)
+        public async Task CreateRelationshipAsync(CreateRelationshipRequest relationshipCreateRequest)
         {
             var UserId = relationshipCreateRequest.UserId;
             var OtherUserId = relationshipCreateRequest.OtherUserId; 

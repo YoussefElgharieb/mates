@@ -18,9 +18,9 @@ namespace Mates.Core.Services
             _passwordService = passwordService ?? throw new ArgumentNullException(nameof(passwordService));
         }
 
-        public async Task<UserResponse> CreateUserAsync(UserCreateRequest userCreateRequest)
+        public async Task<UserResponse> CreateUserAsync(CreateUserRequest userCreateRequest)
         {
-            var userWithSameEmail = await _userRepository.GetUserEmailAsync(userCreateRequest.Email);
+            var userWithSameEmail = await _userRepository.GetUserByEmailAsync(userCreateRequest.Email);
             if(userWithSameEmail != null) throw new BadHttpRequestException("A user with the same email already exists");
             
             var hashedPassword = _passwordService.Hash(userCreateRequest.Password);
