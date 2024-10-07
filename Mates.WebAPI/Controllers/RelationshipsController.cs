@@ -1,5 +1,4 @@
-﻿using Mates.Core.DTO.UserDTOs;
-using Mates.Core.DTO.RelationshipDTOs;
+﻿using Mates.Core.DTO.RelationshipDTOs;
 using Mates.Core.ServiceContracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,16 +11,14 @@ namespace Mates.API.Controllers
         private readonly IRelationshipsService _relationshipsService;
         public RelationshipsController(IRelationshipsService relationshipsService) 
         { 
-            _relationshipsService = relationshipsService?? throw new ArgumentNullException("'relationshipsService' cannot be null");
+            _relationshipsService = relationshipsService?? throw new ArgumentNullException(nameof(relationshipsService));
         }
 
         [HttpPost]
-        public async Task<ActionResult<RelationshipResponse?>> Post([FromBody] RelationshipCreateRequest relationshipCreateRequest)
+        public async Task<ActionResult> Post([FromBody] RelationshipCreateRequest relationshipCreateRequest)
         {
-            return await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
+            await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
+            return NoContent();
         }
-
-        [HttpGet]
-        public async Task<ActionResult<List<RelationshipResponse>>> GetFriends()
     }
 }
