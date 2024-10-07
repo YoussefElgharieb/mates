@@ -21,18 +21,6 @@ namespace Mates.Core.Services
         {
             var UserId = relationshipCreateRequest.UserId;
             var OtherUserId = relationshipCreateRequest.OtherUserId; 
-            
-            var existingUser = await _usersRepository.GetUserByIdAsync(UserId);
-            if(existingUser == null)
-            {
-                throw new BadHttpRequestException($"{nameof(relationshipCreateRequest.UserId)} is not valid");
-            }
-
-            var otherExistingUser = await _usersRepository.GetUserByIdAsync(OtherUserId);
-            if(otherExistingUser == null)
-            {
-                throw new BadHttpRequestException($"{nameof(relationshipCreateRequest.OtherUserId)} is not valid");
-            }
 
             var existingRelationship = await _relationshipsRepository.GetRelationshipAsync(UserId, OtherUserId);
             if(existingRelationship != null)

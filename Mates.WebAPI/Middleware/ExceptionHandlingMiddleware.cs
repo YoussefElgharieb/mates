@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Mates.API.Middleware
 {
@@ -22,11 +20,11 @@ namespace Mates.API.Middleware
             }
             catch (Exception exception)
             {
-
                 var statusCode = exception switch
                 {
                     ArgumentException => (int)HttpStatusCode.BadRequest,
                     UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
+                    DbUpdateException => (int)HttpStatusCode.Conflict,
                     _ => (int)HttpStatusCode.InternalServerError
                 };
 
