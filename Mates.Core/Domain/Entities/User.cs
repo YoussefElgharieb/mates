@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Mates.Core.Domain.Enums;
 
 namespace Mates.Core.Domain.Entities
 {
@@ -9,5 +10,6 @@ namespace Mates.Core.Domain.Entities
         public required string Email { get; set; }
         public required string Password { get; set; }
         public required string Name { get; set; }
+        public required Role Role { get; set; }
     }
 }

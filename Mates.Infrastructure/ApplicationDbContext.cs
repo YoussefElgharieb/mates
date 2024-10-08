@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mates.Core.Domain.Entities;
-using Mates.Infrastructure.Configuration;
-using System.Reflection;
 
 
 namespace Mates.Infrastructure
