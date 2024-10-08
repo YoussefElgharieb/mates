@@ -15,6 +15,11 @@ namespace Mates.API.Controllers
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
         }
 
+        /// <summary>
+        /// create a user using an email, name, and password.
+        /// </summary>
+        /// <param name="userCreateRequest"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<UserResponse>> Post([FromBody]CreateUserRequest userCreateRequest)
         {

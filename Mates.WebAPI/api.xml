@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mates.API</name>
+    </assembly>
+    <members>
+        <member name="M:Mates.API.Controllers.UsersController.Post(Mates.Core.DTO.UserDTOs.CreateUserRequest)">
+            <summary>
+            create a user using an email, name, and password.
+            </summary>
+            <param name="userCreateRequest"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
