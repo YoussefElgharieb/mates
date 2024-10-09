@@ -12,12 +12,32 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.Text;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//JWT
+var JWTIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTIssuer) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTIssuer)}' environment variable is missing or empty"); ;
+var JWTAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTAudience) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTAudience)}' environment variable is missing or empty");
+var JWTKey = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTKey) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTKey)}' environment variable is missing or empty");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new ()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = JWTIssuer,
+            ValidAudience = JWTAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("hHrkctx5NsPvtJFK2mupkVj4KLIQ95HL"))
+        };
+    });
 
 builder.Services.AddControllers();
 
@@ -38,26 +58,6 @@ builder.Services.AddScoped<IRelationshipsRepository, RelationshipsRepository>();
 //FLuentValidators
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
 builder.Services.AddFluentValidationAutoValidation();
-
-//JWT
-var JWTIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTIssuer) ?? throw new ArgumentException($"'{nameof(EnvironmentVariables.JWTIssuer)}' environment variable is missing or empty"); ;
-var JWTAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTAudience) ?? throw new ArgumentException($"'{nameof(EnvironmentVariables.JWTAudience)}' environment variable is missing or empty");
-var JWTKey = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTKey) ?? throw new ArgumentException($"'{nameof(EnvironmentVariables.JWTKey)}' environment variable is missing or empty");
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = JWTIssuer,
-            ValidAudience = JWTAudience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey))
-        };
-    });
 
 var app = builder.Build();
 
