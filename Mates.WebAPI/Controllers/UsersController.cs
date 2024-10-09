@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Mates.Core.DTO.UserDTOs;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Mates.API.Controllers
 {
@@ -16,6 +17,7 @@ namespace Mates.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserResponse>> Post([FromBody]CreateUserRequest userCreateRequest)
         {
             return await _usersService.CreateUserAsync(userCreateRequest);

@@ -1,5 +1,6 @@
 ﻿using Mates.Core.DTO.RelationshipDTOs;
 using Mates.Core.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mates.API.Controllers
@@ -15,6 +16,7 @@ namespace Mates.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> Post([FromBody] CreateRelationshipRequest relationshipCreateRequest)
         {
             await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
