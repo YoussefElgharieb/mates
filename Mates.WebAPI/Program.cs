@@ -12,8 +12,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.JsonWebTokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -70,6 +68,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseExceptionHandlingMiddleware();
+
+app.UseInjectUserIdMiddleware();
 
 app.MapControllers();
 
