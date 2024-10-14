@@ -1,7 +1,6 @@
 ﻿using Mates.Core.Domain.Entities;
 using Mates.Core.Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Mates.Infrastructure.Repositories
 {
@@ -18,6 +17,11 @@ namespace Mates.Infrastructure.Repositories
             _context.Relationships.Add(relationship);
             await _context.SaveChangesAsync();
             return relationship;
+        }
+
+        public async Task<List<Relationship>> GetFriendsAsync(Guid userId)
+        {
+            return await _context.Relationships.Include("User").Include("OtherUser").Where(r => r.UserId == userId || r.OtherUserId == userId).ToListAsync();
         }
 
         public async Task<Relationship?> GetRelationshipAsync(Guid userId, Guid otherUserId)

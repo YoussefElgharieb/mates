@@ -1,7 +1,7 @@
 ﻿using Mates.Core.Domain.Enums;
 using Mates.Core.DTO.RelationshipDTOs;
+using Mates.Core.DTO.UserDTOs;
 using Mates.Core.ServiceContracts;
-using Mates.Core.Services;
 using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,5 +28,22 @@ namespace Mates.API.Controllers
             await _relationshipsService.CreateRelationshipAsync(UserId, relationshipCreateRequest);
             return NoContent();
         }
+
+        [HttpGet("friends")]
+        [Authorize(Roles = nameof(Role.User))]
+        public async Task<ActionResult<List<UserResponse>>> GetFriends()
+        {
+            Guid UserId = _userIdProvider.GetUserId();
+            return await _relationshipsService.GetFriendsAsync(UserId);
+        }
+
+        [HttpGet("nonfriends")]
+        [Authorize(Roles = nameof(Role.User))]
+        public async Task<ActionResult<List<UserResponse>>> GetNonFriends()
+        {
+            Guid UserId = _userIdProvider.GetUserId();
+            return await _relationshipsService.GetNonFriendsAsync(UserId);
+        }
+
     }
 }
