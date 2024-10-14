@@ -1,5 +1,8 @@
-﻿using Mates.Core.DTO.RelationshipDTOs;
+﻿using Mates.Core.Domain.Enums;
+using Mates.Core.DTO.RelationshipDTOs;
 using Mates.Core.ServiceContracts;
+using Mates.Core.Services;
+using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +13,19 @@ namespace Mates.API.Controllers
     public class RelationshipsController : ControllerBase
     {
         private readonly IRelationshipsService _relationshipsService;
-        public RelationshipsController(IRelationshipsService relationshipsService) 
+        private readonly IUserIdProvider _userIdProvider;
+        public RelationshipsController(IRelationshipsService relationshipsService, IUserIdProvider userIdProvider) 
         { 
             _relationshipsService = relationshipsService?? throw new ArgumentNullException(nameof(relationshipsService));
+            _userIdProvider = userIdProvider ?? throw new ArgumentNullException(nameof(userIdProvider));
         }
 
         [HttpPost]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = nameof(Role.User))]
         public async Task<ActionResult> Post([FromBody] CreateRelationshipRequest relationshipCreateRequest)
         {
-            await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
+            Guid UserId = _userIdProvider.GetUserId();
+            await _relationshipsService.CreateRelationshipAsync(UserId, relationshipCreateRequest);
             return NoContent();
         }
     }

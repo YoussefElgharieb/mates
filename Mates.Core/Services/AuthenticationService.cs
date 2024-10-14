@@ -14,11 +14,19 @@ namespace Mates.Core.Services
     {
         private readonly IPasswordService _passwordService;
         private readonly IUsersRepository _usersRepository;
+        private readonly String _JWTKey;
+        private readonly String _JWTIssuer;
+        private readonly String _JWTAudience;
+        private readonly int _JWTExpirationInMinutes;
 
         public AuthenticationService(IPasswordService passwordService, IUsersRepository usersRepository) 
         {
             _passwordService = passwordService ?? throw new ArgumentNullException(nameof(passwordService));
-            _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));    
+            _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
+            _JWTKey = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTKey) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTKey));
+            _JWTIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTIssuer) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTIssuer));
+            _JWTAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTAudience) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTAudience));
+            _JWTExpirationInMinutes = Convert.ToInt32(Environment.GetEnvironmentVariable(EnvironmentVariables.JWTExpirationInMinutes) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTExpirationInMinutes)));
         }
         public async Task<string> LoginUserAsync(LoginRequest loginRequest)
         {
@@ -35,11 +43,8 @@ namespace Mates.Core.Services
                 throw new BadHttpRequestException($"'{nameof(loginRequest.Password)}' is incorrect");
             }
 
-            var JWTKey = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTKey) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTKey)}' environment variable is missing or empty");
-            var JWTIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTIssuer) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTIssuer)}' environment variable is missing or empty");
-            var JWTAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTAudience) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTAudience)}' environment variable is missing or empty");
-
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JWTKey));
+           
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_JWTKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -50,11 +55,11 @@ namespace Mates.Core.Services
 
 
             var token = new JwtSecurityToken(
-                issuer: JWTIssuer,
-                audience: JWTAudience,
+                issuer: _JWTIssuer,
+                audience: _JWTAudience,
                 claims,
                 null,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddMinutes(_JWTExpirationInMinutes),
                 signingCredentials: credentials
                 );
 

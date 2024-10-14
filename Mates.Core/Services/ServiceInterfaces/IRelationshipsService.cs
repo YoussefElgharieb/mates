@@ -6,6 +6,6 @@ namespace Mates.Core.ServiceContracts
 {
     public interface IRelationshipsService
     {
-        public Task CreateRelationshipAsync(CreateRelationshipRequest relationshipCreateRequest);
+        public Task CreateRelationshipAsync(Guid userId, CreateRelationshipRequest relationshipCreateRequest);
     }
 }

@@ -16,8 +16,6 @@ namespace Mates.Infrastructure.Configuration
                 .Property(u => u.Role)
                 .HasDefaultValue(Role.User);
 
-            //m.ha@luftborn.com's password: 
-            //8&xGnGpCASlo$3q
             builder
                 .HasData(new User()
                 {

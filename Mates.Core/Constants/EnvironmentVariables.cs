@@ -6,5 +6,6 @@
         public const string JWTKey = "JWTKey";
         public const string JWTIssuer = "JWTIssuer";
         public const string JWTAudience = "JWTAudience";
+        public const string JWTExpirationInMinutes = "JWTExpirationInMinutes";
     }
 }

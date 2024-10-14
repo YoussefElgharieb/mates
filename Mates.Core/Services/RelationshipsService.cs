@@ -17,12 +17,11 @@ namespace Mates.Core.Services
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
         }
 
-        public async Task CreateRelationshipAsync(CreateRelationshipRequest relationshipCreateRequest)
+        public async Task CreateRelationshipAsync(Guid userId, CreateRelationshipRequest relationshipCreateRequest)
         {
-            var UserId = relationshipCreateRequest.UserId;
             var OtherUserId = relationshipCreateRequest.OtherUserId; 
 
-            var existingRelationship = await _relationshipsRepository.GetRelationshipAsync(UserId, OtherUserId);
+            var existingRelationship = await _relationshipsRepository.GetRelationshipAsync(userId, OtherUserId);
             if(existingRelationship != null)
             {
                 throw new BadHttpRequestException("relationship already exists");
@@ -30,7 +29,7 @@ namespace Mates.Core.Services
 
             var relationship = new Relationship()
             {
-                UserId = UserId,
+                UserId = userId,
                 OtherUserId = OtherUserId
             };
 
