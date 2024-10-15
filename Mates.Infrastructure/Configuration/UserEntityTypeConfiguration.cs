@@ -1,7 +1,5 @@
 ﻿using Mates.Core.Domain.Entities;
 using Mates.Core.Domain.Enums;
-using Mates.Core.Services;
-using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,7 +1,4 @@
-﻿
-
-
-using Mates.Core.Domain.Entities;
+﻿using Mates.Core.Domain.Entities;
 using Mates.Core.Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 

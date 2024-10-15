@@ -1,7 +1,6 @@
 ﻿using Mates.Core.Domain.Entities;
 using Mates.Core.Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Mates.Infrastructure.Repositories
 {
