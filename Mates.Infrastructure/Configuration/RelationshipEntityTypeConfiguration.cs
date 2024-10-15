@@ -9,7 +9,7 @@ namespace Mates.Infrastructure.Configuration
         public void Configure(EntityTypeBuilder<Relationship> builder)
         {
             builder
-                .HasKey(r => new { r.UserId, r.OtherUserId});
+                .HasKey(r => new { r.UserId, r.OtherUserId });
 
             builder
                 .HasOne(r => r.User)

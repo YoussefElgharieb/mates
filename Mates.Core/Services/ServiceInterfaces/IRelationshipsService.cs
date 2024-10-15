@@ -6,7 +6,7 @@ namespace Mates.Core.ServiceContracts
 {
     public interface IRelationshipsService
     {
-        public Task CreateRelationshipAsync(Guid userId, CreateRelationshipRequest relationshipCreateRequest);
-        public Task<List<UserResponse>> GetFriendsAsync(Guid userId);
+        public Task CreateRelationshipAsync(CreateRelationshipRequest relationshipCreateRequest);
+        public Task<List<UserResponse>> GetFriendsAsync();
     }
 }

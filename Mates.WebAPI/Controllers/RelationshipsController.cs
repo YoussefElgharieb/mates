@@ -13,7 +13,7 @@ namespace Mates.API.Controllers
     public class RelationshipsController : ControllerBase
     {
         private readonly IRelationshipsService _relationshipsService;
-        public RelationshipsController(IRelationshipsService relationshipsService, IUserProvider userIdProvider) 
+        public RelationshipsController(IRelationshipsService relationshipsService) 
         { 
             _relationshipsService = relationshipsService?? throw new ArgumentNullException(nameof(relationshipsService));
         }
@@ -30,8 +30,7 @@ namespace Mates.API.Controllers
         [Authorize(Roles = nameof(Role.User))]
         public async Task<ActionResult<List<UserResponse>>> GetFriends()
         {
-            Guid UserId = _userIdProvider.GetUserId();
-            return await _relationshipsService.GetFriendsAsync(UserId);
+            return await _relationshipsService.GetFriendsAsync();
         }
     }
 }

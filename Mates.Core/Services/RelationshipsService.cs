@@ -15,11 +15,11 @@ namespace Mates.Core.Services
         private readonly IUsersRepository _usersRepository;
         private readonly IUserProvider _userProvider;
 
-        public RelationshipsService (IRelationshipsRepository relationshipsRepository, IUsersRepository usersRepository, IUserIdProvider userProvider)
+        public RelationshipsService (IRelationshipsRepository relationshipsRepository, IUsersRepository usersRepository, IUserProvider userProvider)
         {
             _relationshipsRepository = relationshipsRepository ?? throw new ArgumentNullException(nameof(relationshipsRepository));
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
-            _userProvider = (IUserProvider?)userProvider;
+            _userProvider = userProvider;
         }
 
         public async Task CreateRelationshipAsync(CreateRelationshipRequest relationshipCreateRequest)
@@ -46,8 +46,9 @@ namespace Mates.Core.Services
             return;
         }
 
-        public async Task<List<UserResponse>> GetFriendsAsync(Guid userId)
+        public async Task<List<UserResponse>> GetFriendsAsync()
         {
+            var userId = _userProvider.GetUserId();
             var friends = await _relationshipsRepository.GetFriendsAsync(userId);
 
             var userResponses =  friends.Select(u => new UserResponse()

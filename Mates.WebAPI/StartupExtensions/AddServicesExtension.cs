@@ -5,8 +5,6 @@ using Mates.Core.ServiceContracts;
 using Mates.Core.Services.ServiceInterfaces;
 using Mates.Core.Services;
 using Mates.Infrastructure.Repositories;
-using FluentValidation;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace Mates.API.StartupExtensions
 {
