@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContextService(builder.Configuration);
 builder.Services.AddAuthenticationService();
+builder.Services.AddFluentValidationService();
 builder.Services.AddServices();
 
 

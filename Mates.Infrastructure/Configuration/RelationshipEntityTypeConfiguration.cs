@@ -1,12 +1,6 @@
 ﻿using Mates.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mates.Infrastructure.Configuration
 {
@@ -18,13 +12,13 @@ namespace Mates.Infrastructure.Configuration
                 .HasKey(r => new { r.UserId, r.OtherUserId });
 
             builder
-                .HasOne<User>()
+                .HasOne(r => r.User)
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
                 .IsRequired();
 
             builder
-                .HasOne<User>()
+                .HasOne(r => r.OtherUser)
                 .WithMany()
                 .HasForeignKey(r => r.OtherUserId)
                 .IsRequired();

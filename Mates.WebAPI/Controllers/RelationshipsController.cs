@@ -1,7 +1,7 @@
 ﻿using Mates.Core.Domain.Enums;
 using Mates.Core.DTO.RelationshipDTOs;
+using Mates.Core.DTO.UserDTOs;
 using Mates.Core.ServiceContracts;
-using Mates.Core.Services;
 using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace Mates.API.Controllers
     public class RelationshipsController : ControllerBase
     {
         private readonly IRelationshipsService _relationshipsService;
-        public RelationshipsController(IRelationshipsService relationshipsService, IUserProvider userIdProvider) 
+        public RelationshipsController(IRelationshipsService relationshipsService) 
         { 
             _relationshipsService = relationshipsService?? throw new ArgumentNullException(nameof(relationshipsService));
         }
@@ -24,6 +24,13 @@ namespace Mates.API.Controllers
         {
             await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
             return NoContent();
+        }
+
+        [HttpGet("friends")]
+        [Authorize(Roles = nameof(Role.User))]
+        public async Task<ActionResult<List<UserResponse>>> GetFriends()
+        {
+            return await _relationshipsService.GetFriendsAsync();
         }
     }
 }

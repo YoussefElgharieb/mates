@@ -3,6 +3,7 @@ using System;
 using Mates.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Mates.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241014174130_Relationships-navigation")]
+    partial class Relationshipsnavigation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,7 +70,7 @@ namespace Mates.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("98d244b8-2f67-45e8-a06a-b9cdbeff0d71"),
+                            Id = new Guid("311e6c7a-4ec3-42a7-acf5-3cf6add0895c"),
                             Email = "m.ha@luftborn.com",
                             Name = "marwan hamed",
                             Password = "$2a$11$PRYh/ESkoB7jNbAsl0z3HefeGscGxvBau7ZL0UBN/FBPuWft7ZC7a",
@@ -78,27 +81,20 @@ namespace Mates.Infrastructure.Migrations
             modelBuilder.Entity("Mates.Core.Domain.Entities.Relationship", b =>
                 {
                     b.HasOne("Mates.Core.Domain.Entities.User", "OtherUser")
-                        .WithMany("RelationshipsAsOtherUser")
+                        .WithMany()
                         .HasForeignKey("OtherUserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Mates.Core.Domain.Entities.User", "User")
-                        .WithMany("RelationshipsAsUser")
+                        .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("OtherUser");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Mates.Core.Domain.Entities.User", b =>
-                {
-                    b.Navigation("RelationshipsAsOtherUser");
-
-                    b.Navigation("RelationshipsAsUser");
                 });
 #pragma warning restore 612, 618
         }

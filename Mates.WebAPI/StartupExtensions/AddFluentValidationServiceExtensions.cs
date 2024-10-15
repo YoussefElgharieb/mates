@@ -6,7 +6,7 @@ namespace Mates.API.StartupExtensions
 {
     public static class AddFluentValidationServiceExtensions
     {
-        public static void AddFluentValidationService(this IServiceCollection services, IConfiguration configuration)
+        public static void AddFluentValidationService(this IServiceCollection services)
         {
             //FLuentValidators
             services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();

@@ -11,5 +11,7 @@ namespace Mates.Core.Domain.Entities
         public required string Password { get; set; }
         public required string Name { get; set; }
         public required Role Role { get; set; }
+        public virtual List<Relationship>? RelationshipsAsUser { get; set; }
+        public virtual List<Relationship>? RelationshipsAsOtherUser { get; set; }
     }
 }

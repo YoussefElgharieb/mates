@@ -1,10 +1,10 @@
 ﻿using Mates.Core.Domain.Entities;
 using Mates.Core.Domain.RepositoryInterfaces;
 using Mates.Core.DTO.RelationshipDTOs;
+using Mates.Core.DTO.UserDTOs;
 using Mates.Core.ServiceContracts;
 using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
 
 namespace Mates.Core.Services
 {
@@ -28,6 +28,7 @@ namespace Mates.Core.Services
             var OtherUserId = relationshipCreateRequest.OtherUserId; 
 
             var existingRelationship = await _relationshipsRepository.GetRelationshipAsync(userId, OtherUserId);
+
             if(existingRelationship != null)
             {
                 throw new BadHttpRequestException("relationship already exists");
@@ -42,6 +43,21 @@ namespace Mates.Core.Services
             await _relationshipsRepository.CreateRelationshipAsync(relationship);
 
             return;
+        }
+
+        public async Task<List<UserResponse>> GetFriendsAsync()
+        {
+            var userId = _userProvider.GetUserId();
+            var friends = await _relationshipsRepository.GetFriendsAsync(userId);
+
+            var userResponses =  friends.Select(u => new UserResponse()
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Email = u.Email
+                }).ToList();
+
+            return userResponses;
         }
     }
 }
