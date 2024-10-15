@@ -32,7 +32,6 @@ namespace Mates.Core.Services
         }
         public async Task<string> LoginUserAsync(LoginRequest loginRequest)
         {
-            //throw new NotImplementedException();
             var user = await _usersRepository.GetUserByEmailAsync(loginRequest.Email);
             if (user == null)
             {
