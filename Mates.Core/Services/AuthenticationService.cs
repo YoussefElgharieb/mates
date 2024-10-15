@@ -17,7 +17,7 @@ namespace Mates.Core.Services
         private readonly String _jwtKey;
         private readonly String _jwtIssuer;
         private readonly String _jwtAudience;
-        private readonly int _JWTExpirationInMinutes;
+        private readonly int _jwtExpirationInMinutes;
         private readonly JwtSecurityTokenHandler _handler;
 
         public AuthenticationService(IPasswordService passwordService, IUsersRepository usersRepository) 
@@ -27,7 +27,7 @@ namespace Mates.Core.Services
             _jwtKey = Environment.GetEnvironmentVariable(EnvironmentVariables.JwtKey) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtKey));
             _jwtIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JwtIssuer) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtIssuer));
             _jwtAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JwtAudience) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtAudience));
-            _JWTExpirationInMinutes = Convert.ToInt32(Environment.GetEnvironmentVariable(EnvironmentVariables.JwtExpirationInMinutes) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtExpirationInMinutes)));
+            _jwtExpirationInMinutes = Convert.ToInt32(Environment.GetEnvironmentVariable(EnvironmentVariables.JwtExpirationInMinutes) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtExpirationInMinutes)));
             _handler = new JwtSecurityTokenHandler();
         }
         public async Task<string> LoginUserAsync(LoginRequest loginRequest)
@@ -61,7 +61,7 @@ namespace Mates.Core.Services
                 audience: _jwtAudience,
                 claims,
                 null,
-                expires: DateTime.Now.AddMinutes(_JWTExpirationInMinutes),
+                expires: DateTime.Now.AddMinutes(_jwtExpirationInMinutes),
                 signingCredentials: credentials
                 );
 
