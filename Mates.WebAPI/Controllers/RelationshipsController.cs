@@ -13,19 +13,16 @@ namespace Mates.API.Controllers
     public class RelationshipsController : ControllerBase
     {
         private readonly IRelationshipsService _relationshipsService;
-        private readonly IUserIdProvider _userIdProvider;
-        public RelationshipsController(IRelationshipsService relationshipsService, IUserIdProvider userIdProvider) 
+        public RelationshipsController(IRelationshipsService relationshipsService, IUserProvider userIdProvider) 
         { 
             _relationshipsService = relationshipsService?? throw new ArgumentNullException(nameof(relationshipsService));
-            _userIdProvider = userIdProvider ?? throw new ArgumentNullException(nameof(userIdProvider));
         }
 
         [HttpPost]
         [Authorize(Roles = nameof(Role.User))]
         public async Task<ActionResult> Post([FromBody] CreateRelationshipRequest relationshipCreateRequest)
         {
-            Guid UserId = _userIdProvider.GetUserId();
-            await _relationshipsService.CreateRelationshipAsync(UserId, relationshipCreateRequest);
+            await _relationshipsService.CreateRelationshipAsync(relationshipCreateRequest);
             return NoContent();
         }
 

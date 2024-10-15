@@ -14,19 +14,21 @@ namespace Mates.Core.Services
     {
         private readonly IPasswordService _passwordService;
         private readonly IUsersRepository _usersRepository;
-        private readonly String _JWTKey;
-        private readonly String _JWTIssuer;
-        private readonly String _JWTAudience;
-        private readonly int _JWTExpirationInMinutes;
+        private readonly String _jwtKey;
+        private readonly String _jwtIssuer;
+        private readonly String _jwtAudience;
+        private readonly int _jwtExpirationInMinutes;
+        private readonly JwtSecurityTokenHandler _handler;
 
         public AuthenticationService(IPasswordService passwordService, IUsersRepository usersRepository) 
         {
             _passwordService = passwordService ?? throw new ArgumentNullException(nameof(passwordService));
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
-            _JWTKey = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTKey) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTKey));
-            _JWTIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTIssuer) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTIssuer));
-            _JWTAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTAudience) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTAudience));
-            _JWTExpirationInMinutes = Convert.ToInt32(Environment.GetEnvironmentVariable(EnvironmentVariables.JWTExpirationInMinutes) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JWTExpirationInMinutes)));
+            _jwtKey = Environment.GetEnvironmentVariable(EnvironmentVariables.JwtKey) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtKey));
+            _jwtIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JwtIssuer) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtIssuer));
+            _jwtAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JwtAudience) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtAudience));
+            _jwtExpirationInMinutes = Convert.ToInt32(Environment.GetEnvironmentVariable(EnvironmentVariables.JwtExpirationInMinutes) ?? throw new ArgumentNullException(nameof(EnvironmentVariables.JwtExpirationInMinutes)));
+            _handler = new JwtSecurityTokenHandler();
         }
         public async Task<string> LoginUserAsync(LoginRequest loginRequest)
         {
@@ -38,13 +40,13 @@ namespace Mates.Core.Services
             }
 
             var result = _passwordService.Verify(loginRequest.Password, user.Password);
-            if (result == false)
+            if (!result)
             {
                 throw new BadHttpRequestException($"'{nameof(loginRequest.Password)}' is incorrect");
             }
 
            
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_JWTKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -55,15 +57,15 @@ namespace Mates.Core.Services
 
 
             var token = new JwtSecurityToken(
-                issuer: _JWTIssuer,
-                audience: _JWTAudience,
+                issuer: _jwtIssuer,
+                audience: _jwtAudience,
                 claims,
                 null,
-                expires: DateTime.Now.AddMinutes(_JWTExpirationInMinutes),
+                expires: DateTime.Now.AddMinutes(_jwtExpirationInMinutes),
                 signingCredentials: credentials
                 );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return _handler.WriteToken(token);
         }
     }
 }
