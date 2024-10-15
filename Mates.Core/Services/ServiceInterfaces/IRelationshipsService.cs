@@ -1,5 +1,4 @@
-﻿using Mates.Core.Domain.Entities;
-using Mates.Core.DTO.RelationshipDTOs;
+﻿using Mates.Core.DTO.RelationshipDTOs;
 
 
 namespace Mates.Core.ServiceContracts

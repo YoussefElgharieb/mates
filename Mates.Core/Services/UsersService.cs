@@ -4,6 +4,7 @@ using Mates.Core.Services.ServiceInterfaces;
 using Mates.Core.Domain.Entities;
 using Mates.Core.DTO.UserDTOs;
 using Microsoft.AspNetCore.Http;
+using Mates.Core.Domain.Enums;
 
 namespace Mates.Core.Services
 {
@@ -31,6 +32,7 @@ namespace Mates.Core.Services
                 Email = userCreateRequest.Email, 
                 Password = hashedPassword,
                 Name = userCreateRequest.Name,
+                Role = Role.User
             };
 
             await _userRepository.CreateUserAsync(user);
