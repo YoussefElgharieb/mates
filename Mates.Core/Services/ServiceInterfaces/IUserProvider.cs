@@ -1,6 +1,6 @@
 ﻿namespace Mates.Core.Services.ServiceInterfaces
 {
-    public interface IUserIdProvider
+    public interface IUserProvider
     {
         public Guid GetUserId();
     }

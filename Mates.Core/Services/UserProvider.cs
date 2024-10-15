@@ -1,14 +1,13 @@
 ﻿using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Mates.Core.Services
 {
-    public class UserIdProvider : IUserIdProvider
+    public class UserProvider : IUserProvider
     {
         private readonly IHttpContextAccessor _context;
 
-        public UserIdProvider(IHttpContextAccessor context)
+        public UserProvider(IHttpContextAccessor context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
