@@ -19,7 +19,7 @@ namespace Mates.Core.Services
         {
             _relationshipsRepository = relationshipsRepository ?? throw new ArgumentNullException(nameof(relationshipsRepository));
             _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
-            _userProvider = userProvider;
+            _userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
         }
 
         public async Task CreateRelationshipAsync(CreateRelationshipRequest relationshipCreateRequest)
