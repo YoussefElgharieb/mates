@@ -19,14 +19,54 @@ namespace Mates.Infrastructure.Repositories
             return relationship;
         }
 
-        public async Task<List<Relationship>> GetFriendsAsync(Guid userId)
-        {
-            return await _context.Relationships.Include("User").Include("OtherUser").Where(r => r.UserId == userId || r.OtherUserId == userId).ToListAsync();
-        }
-
         public async Task<Relationship?> GetRelationshipAsync(Guid userId, Guid otherUserId)
         {
             return await _context.Relationships.FirstOrDefaultAsync(r => r.UserId == userId && r.OtherUserId == otherUserId || r.UserId == otherUserId && r.OtherUserId == userId);
         }
+
+        public async Task<List<User>> GetFriendsAsync(Guid userId)
+        {
+            var user = await  _context.Users
+                .Include(u => u.RelationshipsAsUser)
+                    .ThenInclude(r => r.OtherUser)
+                .Include(u => u.RelationshipsAsOtherUser)
+                    .ThenInclude(r => r.User)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+            
+            var relationshipsAsUser = user.RelationshipsAsUser;
+            var relationshipsAsOtherUser = user.RelationshipsAsOtherUser;
+
+
+            List<User> otherUsersFromRelationshipsAsUser = null;
+            if (relationshipsAsUser != null)
+            {
+                otherUsersFromRelationshipsAsUser = relationshipsAsOtherUser.Select(r => r.OtherUser).ToList();
+            }
+
+            List<User> usersFromRelationshipsAsUser = null;
+            if (relationshipsAsOtherUser != null)
+            {
+                usersFromRelationshipsAsUser = relationshipsAsUser.Select(r => r.User).ToList();
+            }
+
+
+            List<User> friends = new List<User>();
+            if (otherUsersFromRelationshipsAsUser != null && usersFromRelationshipsAsUser != null)
+            {
+                friends = otherUsersFromRelationshipsAsUser.Union(usersFromRelationshipsAsUser).ToList();
+            }
+            else if (otherUsersFromRelationshipsAsUser != null)
+            {
+                friends = otherUsersFromRelationshipsAsUser;
+            }
+            else
+            {
+                friends = usersFromRelationshipsAsUser;
+            }
+
+            return friends;
+        }
+
+
     }
 }

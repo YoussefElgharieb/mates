@@ -19,7 +19,6 @@ namespace Mates.API.StartupExtensions
     {
         public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // Add services to the container.
             //JWT
             var JWTIssuer = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTIssuer) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTIssuer)}' environment variable is missing or empty"); ;
             var JWTAudience = Environment.GetEnvironmentVariable(EnvironmentVariables.JWTAudience) ?? throw new ArgumentNullException($"'{nameof(EnvironmentVariables.JWTAudience)}' environment variable is missing or empty");
@@ -62,7 +61,6 @@ namespace Mates.API.StartupExtensions
             //FLuentValidators
             services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
             services.AddFluentValidationAutoValidation();
-
         }
     }
 }

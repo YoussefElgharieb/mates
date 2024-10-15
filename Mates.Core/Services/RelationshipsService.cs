@@ -23,6 +23,7 @@ namespace Mates.Core.Services
             var OtherUserId = relationshipCreateRequest.OtherUserId; 
 
             var existingRelationship = await _relationshipsRepository.GetRelationshipAsync(userId, OtherUserId);
+
             if(existingRelationship != null)
             {
                 throw new BadHttpRequestException("relationship already exists");
@@ -41,31 +42,9 @@ namespace Mates.Core.Services
 
         public async Task<List<UserResponse>> GetFriendsAsync(Guid userId)
         {
-            var relationships = await _relationshipsRepository.GetFriendsAsync(userId);
-
-            var friends =  relationships.Select(u => u.UserId == userId ? u.OtherUser : u.User).ToList();
+            var friends = await _relationshipsRepository.GetFriendsAsync(userId);
 
             var userResponses =  friends.Select(u => new UserResponse()
-                {
-                    Id = u.Id,
-                    Name = u.Name,
-                    Email = u.Email
-                }).ToList();
-
-            return userResponses;
-        }
-
-        public async Task<List<UserResponse>> GetNonFriendsAsync(Guid userId)
-        {
-            var relationships = await _relationshipsRepository.GetFriendsAsync(userId);
-
-            var friends = relationships.Select(u => u.UserId == userId ? u.OtherUserId : u.UserId).ToList();
-
-            var users = await _usersRepository.GetAllUsersAsync();
-
-            var nonFriends = users.Where(u => !friends.Contains(userId) && u.Id != userId).ToList();
-
-            var userResponses = nonFriends.Select(u => new UserResponse()
                 {
                     Id = u.Id,
                     Name = u.Name,

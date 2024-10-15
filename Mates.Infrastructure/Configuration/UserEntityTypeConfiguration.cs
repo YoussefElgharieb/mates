@@ -1,7 +1,5 @@
 ﻿using Mates.Core.Domain.Entities;
 using Mates.Core.Domain.Enums;
-using Mates.Core.Services;
-using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,6 +23,18 @@ namespace Mates.Infrastructure.Configuration
                     Name = "marwan hamed",
                     Role = Role.Admin
                 });
+
+            builder
+                .HasMany(u => u.RelationshipsAsUser)
+                .WithOne(r => r.User)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasMany(u => u.RelationshipsAsOtherUser)
+                .WithOne(r => r.OtherUser)
+                .HasForeignKey(r => r.OtherUserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

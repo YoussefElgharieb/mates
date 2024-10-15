@@ -36,14 +36,5 @@ namespace Mates.API.Controllers
             Guid UserId = _userIdProvider.GetUserId();
             return await _relationshipsService.GetFriendsAsync(UserId);
         }
-
-        [HttpGet("nonfriends")]
-        [Authorize(Roles = nameof(Role.User))]
-        public async Task<ActionResult<List<UserResponse>>> GetNonFriends()
-        {
-            Guid UserId = _userIdProvider.GetUserId();
-            return await _relationshipsService.GetNonFriendsAsync(UserId);
-        }
-
     }
 }
