@@ -26,45 +26,12 @@ namespace Mates.Infrastructure.Repositories
 
         public async Task<List<User>> GetFriendsAsync(Guid userId)
         {
-            var user = await  _context.Users
-                .Include(u => u.RelationshipsAsUser)
-                    .ThenInclude(r => r.OtherUser)
-                .Include(u => u.RelationshipsAsOtherUser)
-                    .ThenInclude(r => r.User)
-                .FirstOrDefaultAsync(u => u.Id == userId);
-            
-            var relationshipsAsUser = user.RelationshipsAsUser;
-            var relationshipsAsOtherUser = user.RelationshipsAsOtherUser;
-
-
-            List<User> otherUsersFromRelationshipsAsUser = null;
-            if (relationshipsAsUser != null)
-            {
-                otherUsersFromRelationshipsAsUser = relationshipsAsOtherUser.Select(r => r.OtherUser).ToList();
-            }
-
-            List<User> usersFromRelationshipsAsUser = null;
-            if (relationshipsAsOtherUser != null)
-            {
-                usersFromRelationshipsAsUser = relationshipsAsUser.Select(r => r.User).ToList();
-            }
-
-
-            List<User> friends = new List<User>();
-            if (otherUsersFromRelationshipsAsUser != null && usersFromRelationshipsAsUser != null)
-            {
-                friends = otherUsersFromRelationshipsAsUser.Union(usersFromRelationshipsAsUser).ToList();
-            }
-            else if (otherUsersFromRelationshipsAsUser != null)
-            {
-                friends = otherUsersFromRelationshipsAsUser;
-            }
-            else
-            {
-                friends = usersFromRelationshipsAsUser;
-            }
-
-            return friends;
+            return await _context.Relationships
+                .Include(r => r.User)
+                .Include(r => r.OtherUser)
+                .Where(r => r.UserId == userId || r.OtherUserId == userId)
+                .Select<Relationship, User>(r => r.UserId == userId ? r.OtherUser : r.User)
+                .ToListAsync();
         }
 
 
