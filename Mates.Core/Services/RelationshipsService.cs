@@ -5,7 +5,6 @@ using Mates.Core.DTO.UserDTOs;
 using Mates.Core.ServiceContracts;
 using Mates.Core.Services.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
 
 namespace Mates.Core.Services
 {
