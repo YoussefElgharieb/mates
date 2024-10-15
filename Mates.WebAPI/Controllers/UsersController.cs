@@ -1,10 +1,8 @@
 ﻿using Mates.Core.ServiceContracts;
 using Microsoft.AspNetCore.Mvc;
 using Mates.Core.DTO.UserDTOs;
-using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Mates.Core.Domain.Enums;
-using Mates.Core.Services.ServiceInterfaces;
 
 namespace Mates.API.Controllers
 {

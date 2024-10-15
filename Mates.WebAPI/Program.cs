@@ -1,5 +1,3 @@
-using FluentValidation;
-using Mates.API.Constants;
 using Mates.API.Middleware;
 using Mates.API.StartupExtensions;
 
